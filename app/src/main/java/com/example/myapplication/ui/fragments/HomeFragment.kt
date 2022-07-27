@@ -51,7 +51,6 @@ class HomeFragment: Fragment(R.layout.home_fragment) {
 
     private fun login() = lifecycleScope.launch(IO) {
         try {
-            // Login
             vatomincRepo.loginOpenID(requireActivity())
 
             withContext(Main) { binding.vatoms.visibility = View.VISIBLE }

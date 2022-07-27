@@ -24,8 +24,8 @@
         android:label="ArFragment" >
         <argument
             android:name="location"
-            app:nullable="false"
-            app:argType="com.example.myapplication.data.pojos.LocationBounds" />
+            app:argType="com.example.myapplication.data.pojos.Location"
+            app:nullable="false" />
     </fragment>
     <fragment
         android:id="@+id/mapFragment"

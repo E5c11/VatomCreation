@@ -28,6 +28,8 @@ class ArFragment: Fragment(R.layout.ar_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = ArFragmentBinding.bind(view)
+
+        // args contain the location which can be used to fetch vatoms in ar radius
 //        viewModel.getRegionVatoms(args.location)
     }
 

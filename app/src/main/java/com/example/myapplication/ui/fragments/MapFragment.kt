@@ -1,32 +1,23 @@
 package com.example.myapplication.ui.fragments
 
-import android.Manifest
 import android.annotation.SuppressLint
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.SimpleTarget
 import com.example.myapplication.R
+import com.example.myapplication.data.pojos.Location
 import com.example.myapplication.data.pojos.LocationBounds
 import com.example.myapplication.data.pojos.vatom.Vatom
 import com.example.myapplication.databinding.MapFragmentBinding
 import com.example.myapplication.repositories.VatomincRepo
-import com.example.myapplication.utils.hasCameraPermission
-import com.example.myapplication.utils.hasCoarseLocPermission
-import com.example.myapplication.utils.hasFineLocPermission
 import com.example.myapplication.viewmodels.MapViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.GoogleMap.OnCameraMoveListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
@@ -38,7 +29,6 @@ import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-
 
 @AndroidEntryPoint
 class MapFragment: Fragment(R.layout.map_fragment), OnMapReadyCallback {
@@ -64,7 +54,7 @@ class MapFragment: Fragment(R.layout.map_fragment), OnMapReadyCallback {
     private fun setListeners() {
         binding.arBtn.setOnClickListener {
             findNavController().navigate(MapFragmentDirections.actionMapFragmentToArFragment(
-                LocationBounds(gMap.projection.visibleRegion.latLngBounds)
+                Location(viewModel.latLng.latitude, viewModel.latLng.longitude)
             ))
         }
     }
@@ -75,7 +65,10 @@ class MapFragment: Fragment(R.layout.map_fragment), OnMapReadyCallback {
                 binding.arBtn.visibility = View.VISIBLE
                 gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(it, 13.0f))
             }
-            vatoms.observe(viewLifecycleOwner) { setMarkers(it) }
+            vatoms.observe(viewLifecycleOwner) {
+                setMarkers(it)
+                binding.arBtn.visibility = View.VISIBLE // only navigate to ar once location is found
+            }
         }
     }
 
