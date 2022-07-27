@@ -1,4 +1,4 @@
-package com.example.myapplication.data
+package com.example.myapplication.data.pojos
 
 data class Coord(
     val lat: Double,

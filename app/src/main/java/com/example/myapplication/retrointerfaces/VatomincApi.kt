@@ -1,10 +1,9 @@
 package com.example.myapplication.retrointerfaces
 
-import com.example.myapplication.data.RegionBody
+import com.example.myapplication.data.pojos.vatom.RegionBody
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.*
-import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 interface VatomincApi {
 

@@ -3,7 +3,7 @@ package com.example.myapplication.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.repositories.VatomincRepo
-import com.example.myapplication.utils.UserPreferences
+import com.example.myapplication.data.persistence.UserPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect

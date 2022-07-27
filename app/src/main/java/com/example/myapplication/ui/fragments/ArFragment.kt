@@ -1,19 +1,13 @@
 package com.example.myapplication.ui.fragments
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavArgs
 import androidx.navigation.fragment.navArgs
 import com.example.myapplication.R
-import com.example.myapplication.data.LocationBounds
 import com.example.myapplication.databinding.ArFragmentBinding
-import com.example.myapplication.utils.hasCameraPermission
 import com.example.myapplication.viewmodels.ArViewModel
 import com.google.ar.core.ArCoreApk
 import com.google.ar.core.Config

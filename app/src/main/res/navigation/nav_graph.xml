@@ -25,7 +25,7 @@
         <argument
             android:name="location"
             app:nullable="false"
-            app:argType="com.example.myapplication.data.LocationBounds" />
+            app:argType="com.example.myapplication.data.pojos.LocationBounds" />
     </fragment>
     <fragment
         android:id="@+id/mapFragment"

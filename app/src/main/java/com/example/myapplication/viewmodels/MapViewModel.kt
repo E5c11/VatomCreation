@@ -7,9 +7,10 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.data.LocationBounds
+import com.example.myapplication.data.pojos.LocationBounds
 import com.example.myapplication.repositories.VatomincRepo
-import com.example.myapplication.utils.UserPreferences
+import com.example.myapplication.data.persistence.UserPreferences
+import com.example.myapplication.data.pojos.vatom.Vatom
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
@@ -31,6 +32,8 @@ class MapViewModel @Inject constructor(
     private var requestingLocationUpdates = false
     private val _loc = MutableLiveData<LatLng>()
     val loc = _loc
+    private val _vatoms = MutableLiveData<List<Vatom>>()
+    val vatoms = _vatoms
     private val pref = preferences.userPref
 
     var latLng = LatLng(0.0, 0.0)
@@ -44,12 +47,14 @@ class MapViewModel @Inject constructor(
     private var locationCallback: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             if (locationResult.locations.size > 0) {
+//        lifecycleScope.launch(IO) { vatomincRepo.loginOpenID(requireActivity()) }
                 val latestLocationIndex = locationResult.locations.size -1
                 val lat = locationResult.locations[latestLocationIndex].latitude
                 val lng = locationResult.locations[latestLocationIndex].longitude
                 if (lat != 0.0) {
                     LocationServices.getFusedLocationProviderClient(app).removeLocationUpdates(this)
                     latLng = LatLng(lat, lng)
+                    Log.d("myT", "onLocationResult: $latLng")
                     _loc.value = latLng
                 }
             }
@@ -61,9 +66,14 @@ class MapViewModel @Inject constructor(
     }
 
     fun getRegionVatoms(locationBounds: LocationBounds) = viewModelScope.launch(Dispatchers.IO) {
+        Log.d("myT", "southWest: ${locationBounds.location.southwest}")
+        Log.d("myT", "southWest: ${locationBounds.location.northeast}")
         pref.collect {
-            val vatoms = vatominc.getRegionVatoms(it.blockvToken, locationBounds)
-            Log.d("myT", "getRegionVatoms: $vatoms")
+            val list = vatominc.getRegionVatoms(it.blockvToken, locationBounds)
+            _vatoms.postValue(list!!)
+            list.forEach{ vatom ->
+                Log.d("myT", "getRegionVatoms: ${vatom.property.geoPos?.coordinates}")
+            }
         }
     }
 

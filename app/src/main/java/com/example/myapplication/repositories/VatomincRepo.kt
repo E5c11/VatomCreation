@@ -5,18 +5,20 @@ import android.app.Application
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
-import com.example.myapplication.data.Coord
-import com.example.myapplication.data.LocationBounds
-import com.example.myapplication.data.RegionBody
+import com.example.myapplication.data.pojos.Coord
+import com.example.myapplication.data.pojos.LocationBounds
+import com.example.myapplication.data.pojos.vatom.RegionBody
+import com.example.myapplication.data.pojos.vatom.Vatom
 import com.example.myapplication.retrointerfaces.VatomincApi
 import com.example.myapplication.retrointerfaces.VatomincApi.Companion.ActivityEndSessionAuthorization
 import com.example.myapplication.retrointerfaces.VatomincApi.Companion.ActivityRequestCodeAuthorization
 import com.example.myapplication.retrointerfaces.VatomincApi.Companion.BASE_URL
 import com.example.myapplication.retrointerfaces.VatomincApi.Companion.BLOCKV_URL
 import com.example.myapplication.retrointerfaces.VatomincApi.Companion.OPEN_ID
-import com.example.myapplication.utils.UserPreferences
+import com.example.myapplication.data.persistence.UserPreferences
 import com.example.myapplication.utils.wrap
 import com.example.myapplication.utils.wrap2
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 import net.openid.appauth.*
@@ -60,15 +62,20 @@ class VatomincRepo @Inject constructor(
         else return null
     }
 
-    suspend fun getRegionVatoms(accessToken: String, locationBounds: LocationBounds): ResponseBody? {
+    suspend fun getRegionVatoms(accessToken: String, locationBounds: LocationBounds): List<Vatom>? {
         val response = vatomApi.getRegionVatoms("${BASE_URL}v1/vatom/geodiscover", "Bearer $accessToken",
             RegionBody(Coord(locationBounds.location.southwest.latitude, locationBounds.location.southwest.longitude),
                 Coord(locationBounds.location.northeast.latitude, locationBounds.location.northeast.longitude),
                 "all",
-                10
+                30
             )
         )
-        return if (response.isSuccessful) response.body()!!
+        return if (response.isSuccessful) {
+            val data = response.body()!!.string()
+            val payload = JSONObject(data).optString("payload") ?: throw Exception("No vatoms were returned.")
+            val vatoms = JSONObject(payload).optString("vatoms") ?: throw Exception("No vatoms were returned.")
+            Gson().fromJson(vatoms, Array<Vatom>::class.java).toList()
+        }
         else return null
     }
 

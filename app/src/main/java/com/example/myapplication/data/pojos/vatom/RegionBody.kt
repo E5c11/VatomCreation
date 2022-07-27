@@ -1,6 +1,6 @@
-package com.example.myapplication.data
+package com.example.myapplication.data.pojos.vatom
 
-import com.google.android.gms.maps.model.LatLng
+import com.example.myapplication.data.pojos.Coord
 
 data class RegionBody(
     val bottom_left: Coord,

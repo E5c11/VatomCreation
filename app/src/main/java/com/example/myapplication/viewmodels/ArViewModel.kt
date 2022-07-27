@@ -3,9 +3,9 @@ package com.example.myapplication.viewmodels
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.data.LocationBounds
+import com.example.myapplication.data.pojos.LocationBounds
 import com.example.myapplication.repositories.VatomincRepo
-import com.example.myapplication.utils.UserPreferences
+import com.example.myapplication.data.persistence.UserPreferences
 import kotlinx.coroutines.flow.collect
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers.IO

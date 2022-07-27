@@ -1,4 +1,4 @@
-package com.example.myapplication.data
+package com.example.myapplication.data.pojos
 
 import android.os.Parcelable
 import com.google.android.gms.maps.model.LatLngBounds

@@ -1,8 +1,6 @@
 package com.example.myapplication.dagger
 
-import android.app.Application
 import com.example.myapplication.retrointerfaces.VatomincApi
-import com.example.myapplication.utils.UserPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

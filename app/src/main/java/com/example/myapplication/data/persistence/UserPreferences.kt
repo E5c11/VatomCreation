@@ -1,11 +1,11 @@
-package com.example.myapplication.utils
+package com.example.myapplication.data.persistence
 
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
-import com.example.myapplication.utils.UserPreferences.PreferenceKeys.BLOCKV_ACCESS_TOKEN
-import com.example.myapplication.utils.UserPreferences.PreferenceKeys.VATOMINC_ACCESS_TOKEN
+import com.example.myapplication.data.persistence.UserPreferences.PreferenceKeys.BLOCKV_ACCESS_TOKEN
+import com.example.myapplication.data.persistence.UserPreferences.PreferenceKeys.VATOMINC_ACCESS_TOKEN
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
